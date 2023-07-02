@@ -1,0 +1,185 @@
+
+keyword auto|break|case|char|const|continue|default|do|double|else|enum|extern|float|for|goto|if|inline|int|long|register|restrict|return|short|signed|sizeof|static|struct|switch|typedef|union|unsigned|void|volatile|while|_Alignas|_Alignof|_Atomic|_Bool|_Complex|_Generic|_Imaginary|_Noreturn|_Static_assert|_Thread_local
+nondigit [_a-zA-Z]
+digit [0-9]
+
+hexadecimal-digit [0-9a-fA-F]
+hex-quad {hexadecimal-digit}{hexadecimal-digit}{hexadecimal-digit}{hexadecimal-digit}
+universal-character-name (\\u|\\U){hex-quad}{hex-quad}?
+identifier-nondigit {nondigit}|{universal-character-name}
+
+identifier {identifier-nondigit}({identifier-nondigit}|{digit})*
+
+binary-prefix 0b|0B
+binary-digit 0|1
+binary-constant {binary-prefix}{binary-digit}+
+
+octal-digit [0-7]
+octal-constant 0{octal-digit}*
+
+hexadecimal-prefix 0x|0X
+hexadecimal-constant {hexadecimal-prefix}{hexadecimal-digit}+
+
+nonzero-digit [1-9]
+decimal-constant {nonzero-digit}{digit}*
+
+unsigned-suffix u|U
+long-suffix l|L
+long-long-suffix ll|LL
+integer-suffix {unsigned-suffix}{long-suffix}?|{unsigned-suffix}{long-long-suffix}?|{long-suffix}{unsigned-suffix}?|{long-long-suffix}{unsigned-suffix}?
+integer-constant ({decimal-constant}|{binary-constant}|{octal-constant}|{hexadecimal-constant}){integer-suffix}?
+
+sign \+|-
+digit-sequence {digit}+
+fractional-constant {digit-sequence}?.{digit-sequence}|{digit-sequence}.
+exponent-part (e|E){sign}?{digit-sequence}
+floating-suffix f|l|F|L
+
+decimal-floating-constant {fractional-constant}{exponent-part}?{floating-suffix}?|{digit-sequence}{exponent-part}{floating-suffix}?
+
+binary-exponent-part (p|P){sign}?{digit-sequence}
+hexadecimal-digit-sequence {hexadecimal-digit}+
+hexadecimal-fractional-constant {hexadecimal-digit-sequence}?.{hexadecimal-digit-sequence}|{hexadecimal-digit-sequence}.
+
+hexadecimal-floating-constant {hexadecimal-prefix}{hexadecimal-fractional-constant}{binary-exponent-part}?{floating-suffix}?|{hexadecimal-prefix}{hexadecimal-digit-sequence}{binary-exponent-part}{floating-suffix}?
+
+enumeration-constant {identifier}
+
+simple-escape-sequence \\[abfnrtv'"\\?]
+octal-escape-sequence {octal-digit}{octal-digit}?{octal-digit}?
+hexadecimal-escape-sequence \\x{hexadecimal-digit}+
+escape-sequence {simple-escape-sequence}|{octal-escape-sequence}|{hexadecimal-escape-sequence}|{universal-character-name}
+
+c-char [^'\\]|{escape-sequence}
+c-char-sequence {c-char}+
+character-constant '{c-char-sequence}'|L'{c-char-sequence}'
+
+floating-constant {decimal-floating-constant}|{hexadecimal-floating-constant}
+constant {integer-constant}|{floating-constant}|{enumeration-constant}|{character-constant}
+
+encoding-prefix u8|u|U|L
+s-char [^"\\]|{escape-sequence}
+s-char-sequence {s-char}+
+string-literal {encoding-prefix}"{s-char-sequence}?"
+
+punctuator \[|\]|\(|\)|\{|\}|\.|->|\+\+|--|&|\*|\+|-|~|!|/|%|<<|>>|<|>|<=|>=|==|!=|^|\||&&|\|\||\?|:|;|\.\.\.|=|\*=|/=|%=|\+=|-=|<<=|>>=|&=|^=|\|=|,|#|##|<:|:>|<%|%>|%:|%:%:
+
+h-char [^>]
+h-char-sequence {h-char}+
+q-char [^"]
+q-char-sequence {q-char}+
+header-name #include(<{h-char-sequence}>|"{q-char-sequence}")
+
+%
+
+auto AUTO
+break BREAK
+case CASE
+char CHAR
+const CONST
+continue CONTINUE
+default DEFAULT
+do DO
+double DOUBLE
+else ELSE
+enum ENUM
+extern EXTERN
+float FLOAT
+for FOR
+goto GOTO
+if IF
+inline INLINE
+int INT
+long LONG
+register REGISTER
+restrict RESTRICT
+return RETURN
+short SHORT
+signed SIGNED
+sizeof SIZEOF
+static STATIC
+struct STRUCT
+switch SWITCH
+typedef TYPEDEF
+union UNION
+unsigned UNSIGNED
+void VOID
+volatile VOLATILE
+while WHILE
+_Alignas _ALIGNAS
+_Alignof _ALIGNOF
+_Atomic _ATOMIC
+_Bool _BOOL
+_Complex _COMPLEX
+_Generic _GENERIC
+_Imaginary _IMAGINARY
+_Noreturn _NORETURN
+_Static_assert _STATIC_ASSERT
+_Thread_local _THREAD_LOCAL
+
+{identifier} IDENTIFIER
+
+{enumeration-constant} ENUMERATION-CONSTANT
+
+{constant} CONSTANT
+
+{string-literal} STRING-LITERAL
+
+{header-name} HEADER-NAME
+
+\[
+\]
+\(
+\)
+\{
+\}
+\.
+->
+\+\+
+--
+&
+\*
+\+
+-
+~
+!
+/
+\%
+<<
+>>
+<
+>
+<=
+>=
+==
+!=
+^
+\|
+&&
+\|\|
+\?
+:
+;
+\.\.\.
+=
+\*=
+/=
+\%=
+\+=
+-=
+<<=
+>>=
+&=
+^=
+\|=
+,
+#
+##
+<:
+:>
+<\%
+\%>
+\%:
+\%:\%:
+
+%

@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Yacc">
+      <UniqueIdentifier>{54c3a49b-a137-4872-bf3e-8dedd8cd3b1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets">
+      <UniqueIdentifier>{f106549b-8ec8-4982-ba8c-9e8bd98d1a12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lex">
+      <UniqueIdentifier>{6ba9d82b-8412-4c9c-83af-c80c50822d4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lex\header">
+      <UniqueIdentifier>{234fe4f9-e42c-4f26-8c86-24d6f8680316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lex\source">
+      <UniqueIdentifier>{441b9df4-751a-4bee-b000-2d6b2b2b43c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Yacc\header">
+      <UniqueIdentifier>{130a2393-1607-4ee2-8830-49520e66e9aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Yacc\source">
+      <UniqueIdentifier>{9fb23ce4-d596-456e-895f-d9c792ece728}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Compiler.cpp" />
+    <ClCompile Include="nfa.cpp">
+      <Filter>Lex\source</Filter>
+    </ClCompile>
+    <ClCompile Include="dfa.cpp">
+      <Filter>Lex\source</Filter>
+    </ClCompile>
+    <ClCompile Include="lex.cpp">
+      <Filter>Lex\source</Filter>
+    </ClCompile>
+    <ClCompile Include="rule.cpp">
+      <Filter>Yacc\source</Filter>
+    </ClCompile>
+    <ClCompile Include="common.cpp" />
+    <ClCompile Include="grammar.cpp">
+      <Filter>Yacc\source</Filter>
+    </ClCompile>
+    <ClCompile Include="yacc.cpp">
+      <Filter>Yacc\source</Filter>
+    </ClCompile>
+    <ClCompile Include="LALRParser.h">
+      <Filter>Yacc\header</Filter>
+    </ClCompile>
+    <ClCompile Include="LALRParser.cpp">
+      <Filter>Yacc\source</Filter>
+    </ClCompile>
+    <ClCompile Include="parsingTable.cpp">
+      <Filter>Yacc\source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestGrammar">
+      <Filter>assets</Filter>
+    </None>
+    <None Include="TestLexical">
+      <Filter>assets</Filter>
+    </None>
+    <None Include="CppLexical">
+      <Filter>assets</Filter>
+    </None>
+    <None Include="CppCode">
+      <Filter>assets</Filter>
+    </None>
+    <None Include="CppGrammar">
+      <Filter>assets</Filter>
+    </None>
+    <None Include="TestCode">
+      <Filter>assets</Filter>
+    </None>
+    <None Include="TestCppCode">
+      <Filter>assets</Filter>
+    </None>
+    <None Include="TestCppGrammar">
+      <Filter>assets</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="nfa.h">
+      <Filter>Lex\header</Filter>
+    </ClInclude>
+    <ClInclude Include="dfa.h">
+      <Filter>Lex\header</Filter>
+    </ClInclude>
+    <ClInclude Include="lex.h">
+      <Filter>Lex\header</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="rule.h">
+      <Filter>Yacc\header</Filter>
+    </ClInclude>
+    <ClInclude Include="grammar.h">
+      <Filter>Yacc\header</Filter>
+    </ClInclude>
+    <ClInclude Include="yacc.h">
+      <Filter>Yacc\header</Filter>
+    </ClInclude>
+    <ClInclude Include="parsingTable.h">
+      <Filter>Yacc\header</Filter>
+    </ClInclude>
+    <ClInclude Include="parser.h" />
+  </ItemGroup>
+</Project>

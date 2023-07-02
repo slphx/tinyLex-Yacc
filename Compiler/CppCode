@@ -1,0 +1,17 @@
+
+char myfunction(int a){
+	return a+'0';
+}
+
+int main(int arg, char* argv[])
+{
+	int integer = 0;
+	bool notend = true;
+	char mystring[10];
+
+	while (notend) {
+		mystring[integer] = myfunction(integer);
+		if (integer<26) interger++; else notend = false;
+	}
+
+}

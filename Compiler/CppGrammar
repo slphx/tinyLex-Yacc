@@ -1,0 +1,411 @@
+
+translation-unit	: external-declaration
+					| translation-unit external-declaration
+					;
+
+external-declaration	: function-definition
+						| declaration
+						;
+
+function-definition	: declaration-specifiers declarator declaration-list compound-statement
+					| declaration-specifiers declarator compound-statement
+					;
+
+primary-expression	: IDENTIFIER
+					| CONSTANT
+					| STRING-LITERAL
+					| ( expression )
+					| generic-selection
+					;
+
+generic-selection	: _GENERIC ( assignment-expression , generic-assoc-list )
+					;
+
+generic-assoc-list	: generic-association
+					| generic-assoc-list , generic-association
+					;
+
+generic-association	: type-name : assignment-expression
+					| DEFAULT : assignment-expression
+					;
+
+postfix-expression	: primary-expression
+					| postfix-expression [ expression ]
+					| postfix-expression ( argument-expression-list )
+					| postfix-expression . IDENTIFIER
+					| postfix-expression -> IDENTIFIER
+					| postfix-expression ++
+					| postfix-expression --
+					| ( type-name ) { initializer-list }
+					| ( type-name ) { initializer-list , }
+					;
+
+argument-expression-list	: assignment-expression
+							| argument-expression-list , assignment-expression
+							;
+
+unary-expression	: postfix-expression
+					| ++ unary-expression
+					| -- unary-expression
+					| unary-operator cast-expression
+					| SIZEOF unary-expression
+					| SIZEOF ( type-name ) _ALIGNAS ( type-name )
+					;
+
+unary-operator	: &
+				| *
+				| +
+				| -
+				| ~
+				| !
+				;
+
+cast-expression	: unary-expression
+				| ( type-name ) cast-expression
+				;
+
+multiplicative-expression	: cast-expression
+							| multiplicative-expression * cast-expression
+							| multiplicative-expression / cast-expression
+							| multiplicative-expression % cast-expression
+							;
+
+additive-expression	: multiplicative-expression
+					| additive-expression + multiplicative-expression
+					| additive-expression - multiplicative-expression
+					;
+
+shift-expression	: additive-expression
+					| shift-expression << additive-expression
+					| shift-expression >> additive-expression
+					;
+
+relational-expression	: shift-expression
+						| relational-expression < shift-expression
+						| relational-expression > shift-expression
+						| relational-expression <= shift-expression
+						| relational-expression >= shift-expression
+						;
+
+equality-expression	: relational-expression
+					| equality-expression == relational-expression
+					| equality-expression != relational-expression
+					;
+
+AND-expression	: equality-expression
+				| AND-expression & equality-expression
+				;
+
+exclusive-OR-expression	: AND-expression
+						| exclusive-OR-expression ^ AND-expression
+						;
+
+inclusive-OR-expression	: exclusive-OR-expression
+						| inclusive-OR-expression | exclusive-OR-expression
+						;
+
+logical-AND-expression	: inclusive-OR-expression
+						| logical-AND-expression && inclusive-OR-expression
+						;
+
+logical-OR-expression	: logical-AND-expression
+						| logical-OR-expression || logical-AND-expression
+						;
+
+conditional-expression	: logical-OR-expression
+						| logical-OR-expression ? expression : conditional-expression
+						;
+
+assignment-expression	: conditional-expression
+						| unary-expression assignment-operator assignment-expression
+						;
+
+assignment-operator	: =
+					| *=
+					| /=
+					| %=
+					| +=
+					| -=
+					| <<=
+					| >>=
+					| &=
+					| ^=
+					| |=
+					;
+
+expression	: assignment-expression
+			| expression , assignment-expression
+			;
+
+constant-expression	: conditional-expression
+					;
+
+declaration	: declaration-specifiers init-declarator-list ;
+			| declaration-specifiers ;
+			| static_assert-declaration
+			;
+
+declaration-specifiers	: storage-class-specifier declaration-specifiers
+						| storage-class-specifier
+						| type-specifier declaration-specifiers
+						| type-specifier
+						| type-qualifier declaration-specifiers
+						| type-qualifier
+						| function-specifier declaration-specifiers
+						| function-specifier
+						| alignment-specifier declaration-specifiers
+						| alignment-specifier
+						;
+
+init-declarator-list	: init-declarator
+						| init-declarator-list , init-declarator
+						;
+
+init-declarator	: declarator
+				| declarator = initializer
+				;
+
+storage-class-specifier	: AUTO
+						| EXTERN
+						| REGISTER
+						| STATIC
+						| _THREAD_LOCAL
+						| TYPEDEF
+						;
+
+type-specifier	: VOID
+				| CHAR
+				| SHORT
+				| INT
+				| LONG
+				| FLOAT
+				| DOUBLE
+				| SIGNED
+				| UNSIGNED
+				| _BOOL
+				| _COMPLEX
+				| atomic-type-specifier
+				| struct-or-union-specifier
+				| enum-specifier
+				| typedef-name
+				;
+
+struct-or-union-specifier	: struct-or-union IDENTIFIER { struct-declaration-list }
+							| struct-or-union { struct-declaration-list }
+							| struct-or-union IDENTIFIER
+							;
+
+struct-or-union	: STRUCT
+				| UNION
+				;
+
+struct-declaration-list	: struct-declaration
+						| struct-declaration-list struct-declaration
+						;
+
+struct-declaration	: specifier-qualifier-list struct-declarator-list ;
+					| specifier-qualifier-list ;
+					| static_assert-declaration
+					;
+
+specifier-qualifier-list	: type-specifier specifier-qualifier-list
+							| type-specifier
+							| type-qualifier specifier-qualifier-list
+							| type-qualifier
+							| alignment-specifier specifier-qualifier-list
+							| alignment-specifier
+							;
+
+struct-declarator-list	: struct-declarator
+						| struct-declarator-list , struct-declarator
+						;
+
+struct-declarator	: declarator
+					| declarator : constant-expression
+					| : constant-expression
+					;
+
+enum-specifier	: ENUM IDENTIFIER { enumerator-list }
+				| ENUM { enumerator-list }
+				| ENUM IDENTIFIER { enumerator-list , }
+				| ENUM { enumerator-list , }
+				| ENUM IDENTIFIER
+				;
+
+enumerator-list	: enumerator
+				| enumerator-list , enumerator
+				;
+
+enumerator	: ENUMERATION-CONSTANT
+			| ENUMERATION-CONSTANT = constant-expression
+			;
+
+atomic-type-specifier	: _ATOMIC ( type-name )
+						;
+
+type-qualifier	: CONST
+				| RESTRICT
+				| VOLATILE
+				| _ATOMIC
+				;
+
+function-specifier	: INLINE
+					| _NORETURN
+					;
+
+alignment-specifier	: _ALIGNAS ( type-name )
+					| _ALIGNAS ( constant-expression )
+					;
+
+declarator	: pointer direct-declarator
+			| direct-declarator
+			;
+
+direct-declarator	: IDENTIFIER
+					| ( declarator )
+					| direct-declarator [ type-qualifier-list assignment-expression ]
+					| direct-declarator [ assignment-expression ]
+					| direct-declarator [ type-qualifier-list ]
+					| direct-declarator [ ]
+					| direct-declarator [ STATIC type-qualifier-list assignment-expression ]
+					| direct-declarator [ STATIC assignment-expression ]
+					| direct-declarator [ type-qualifier-list STATIC assignment-expression ]
+					| direct-declarator [ type-qualifier-list * ]
+					| direct-declarator [ * ]
+					| direct-declarator ( parameter-type-list )
+					;
+
+pointer	: * type-qualifier-list
+		| *
+		| * type-qualifier-list pointer
+		| * pointer
+		;
+
+type-qualifier-list	: type-qualifier
+					| type-qualifier-list type-qualifier
+					;
+
+parameter-type-list	: parameter-list
+					| parameter-list , ...
+					;
+
+parameter-list	: parameter-declaration
+				| parameter-list , parameter-declaration
+				;
+
+parameter-declaration	: declaration-specifiers declarator
+						| declaration-specifiers abstract-declarator
+						| declaration-specifiers
+						;
+
+identifier-list	: IDENTIFIER
+				| identifier-list , IDENTIFIER
+				;
+
+type-name	: specifier-qualifier-list abstract-declarator
+			| specifier-qualifier-list
+			;
+
+abstract-declarator	: pointer
+					| pointer direct-abstract-declarator
+					| direct-abstract-declarator
+					;
+
+direct-abstract-declarator	: ( abstract-declarator )
+							| direct-abstract-declarator [ type-qualifier-list assignment-expression ]
+							| direct-abstract-declarator [ assignment-expression ]
+							| direct-abstract-declarator [ type-qualifier-list ]
+							| direct-abstract-declarator [ ]
+							| direct-abstract-declarator [ STATIC type-qualifier-list assignment-expression ]
+							| direct-abstract-declarator [ STATIC assignment-expression ]
+							| direct-abstract-declarator [ type-qualifier-list STATIC assignment-expression ]
+							| direct-abstract-declarator [ type-qualifier-list * ]
+							| direct-abstract-declarator [ * ]
+							| direct-abstract-declarator ( parameter-type-list )
+							| ( parameter-type-list )
+							| direct-abstract-declarator ( )
+							| ( )
+							;
+
+typedef-name	: IDENTIFIER
+				;
+
+initializer	: assignment-expression
+			| { initializer-list }
+			| { initializer-list , }
+			;
+
+initializer-list	: designation initializer
+					| initializer
+					| initializer-list , designation initializer
+					| initializer-list , initializer
+					;
+
+designation	: designator-list =
+			;
+
+designator-list	: designator
+				| designator-list designator
+				;
+
+designator	: [ constant-expression ]
+			| . IDENTIFIER
+			;
+
+static_assert-declaration	: _STATIC_ASSERT ( constant-expression , STRING-LITERAL ) ;
+							;
+
+statement	: labeled-statement
+			| compound-statement
+			| expression-statement
+			| selection-statement
+			| iteration-statement
+			| jump-statement
+			;
+
+jump-statement	: GOTO IDENTIFIER ;
+				| CONTINUE ;
+				| BREAK ;
+				| RETURN expression ;
+				| RETURN ;
+				;
+
+compound-statement	: { declaration-list statement-list }
+					| { statement-list }
+					| { declaration-list }
+					| { }
+					;
+
+declaration-list	: declaration
+					| declaration-list declaration
+					;
+
+statement-list	: statement
+				| statement-list statement
+				;
+
+expression-statement	: expression ;
+						| ;
+						;
+
+iteration-statement	: WHILE ( expression ) statement
+					| DO statement WHILE ( expression ) ;
+					| FOR ( expression ; expression ; expression ) statement
+					| FOR ( ; expression ; expression ) statement
+					| FOR ( expression ; ; expression ) statement
+					| FOR ( expression ; expression ; ) statement
+					| FOR ( ; ; expression ) statement
+					| FOR ( ; expression ; ) statement
+					| FOR ( expression ; ; ) statement
+					| FOR ( ; ; ) statement
+					;
+
+selection-statement	: IF ( expression ) statement
+					| IF ( expression ) statement ELSE statement
+					| SWITCH ( expression ) statement
+					;
+
+labeled-statement	: IDENTIFIER : statement
+					| CASE constant-expression : statement
+					| DEFAULT : statement
+					;
