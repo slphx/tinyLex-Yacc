@@ -1,6 +1,8 @@
 ## TinyLex&Yacc
 
 * 本项目为本科编译原理实践课程作业
+* 具体结果演示请见parser.md，这里仅展示结果图
+![outputcpp](./assets/outputcpp.png)
 
 * 部分Yacc的架构参考了项目TinyYacc（[lishuhuakai/TinyYACC: 用cpp编写的一个实现了最核心功能的YACC,供练习使用. (github.com)](https://github.com/lishuhuakai/TinyYACC)）
 
